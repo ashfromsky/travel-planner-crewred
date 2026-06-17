@@ -18,7 +18,7 @@ class ProjectCreate(BaseModel):
 
 
 class ProjectUpdate(BaseModel):
-    name: str = Field(default=None, min_length=1, max_length=255)
+    name: Optional[str] = Field(default=None, min_length=1, max_length=255)
     description: Optional[str] = None
     start_date: Optional[date] = None
 
