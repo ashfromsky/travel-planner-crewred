@@ -3,7 +3,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     DATABASE_URL: str
-    AIT_BASE_URL: str
+    AIC_BASE_URL: str
 
     HOST: str = "0.0.0.0"
     PORT: int = 8000
