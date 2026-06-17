@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ main, master ]
 
+env:
+  DATABASE_URL: sqlite+aiosqlite:///:memory:
+  AIC_BASE_URL: https://api.artic.edu/api/v1
+
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -13,19 +17,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install uv
-        uses: astral-sh/setup-uv@v5
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: astral-sh/setup-uv@v5
         with:
-          python-version-file: "pyproject.toml"
+          python-version: "3.12"
+          enable-cache: true
 
-      - name: Install dependencies
-        run: uv sync --all-extras --dev
+      - run: uv sync
 
-      - name: Verify application imports
-        run: uv run python -c "import main"
-        env:
-          DATABASE_URL: sqlite+aiosqlite:///:memory:
-          AIC_BASE_URL: https://api.artic.edu/api/v1
+      - run: uv run python -c "import main"
