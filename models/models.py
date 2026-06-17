@@ -19,7 +19,7 @@ class Project(SQLModel, table=True):
     status: ProjectStatus = Field(default=ProjectStatus.active, nullable=False)
     created_at: datetime = Field(default_factory=datetime.utcnow, nullable=False)
 
-    places: list["ProjectPlace"] = Relationship(back_populates="projects")
+    places: list["ProjectPlace"] = Relationship(back_populates="project")
 
 class ProjectPlace(SQLModel, table=True):
     __tablename__ = "project_places"
