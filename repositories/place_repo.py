@@ -29,7 +29,7 @@ class PlaceRepository:
         return list(result.scalars().all())
 
     async def get_by_external_id(
-        self, project_id: int, external_id: str
+        self, project_id: int, external_id: int
     ) -> ProjectPlace | None:
         stmt = select(ProjectPlace).where(
             getattr(ProjectPlace, "project_id") == project_id,

@@ -25,7 +25,7 @@ class ProjectPlace(SQLModel, table=True):
     __tablename__ = "project_places"
     id: Optional[int] = Field(default=None, primary_key=True)
     project_id: int = Field(foreign_key="projects.id", nullable=False)
-    external_id: str = Field(nullable=False)
+    external_id: int = Field(nullable=False)
     title: str = Field(max_length=500)
     notes: Optional[str] = Field(default=None)
     is_visited: bool = Field(default=False)

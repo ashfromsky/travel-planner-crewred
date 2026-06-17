@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -31,7 +31,7 @@ class ProjectWithPlacesResponse(BaseModel):
     id: int
     name: str
     description: Optional[str]
-    start_date: Optional[datetime]
+    start_date: Optional[date]
     status: str
     created_at: datetime
     places: list[PlaceResponse] = []

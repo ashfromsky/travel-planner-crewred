@@ -27,7 +27,7 @@ class PlaceService:
                 detail="Project already has the maximum of 10 places.",
             )
 
-        existing = await self.place_repo.get_by_external_id(project_id, str(data.external_id))
+        existing = await self.place_repo.get_by_external_id(project_id, data.external_id)
         if existing:
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,
@@ -44,7 +44,7 @@ class PlaceService:
 
         place = ProjectPlace(
             project_id=project_id,
-            external_id=str(data.external_id),
+            external_id=data.external_id,
             title=title,
         )
         return await self.place_repo.create(place)

@@ -44,7 +44,7 @@ class ProjectService:
 
                 place = ProjectPlace(
                     project_id=project.id,
-                    external_id=str(place_data.external_id),
+                    external_id=place_data.external_id,
                     title=title,
                 )
                 await self.place_repo.create(place)
