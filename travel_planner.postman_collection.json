@@ -1,0 +1,387 @@
+{
+	"info": {
+		"_postman_id": "b3e51df2-42c2-4751-872f-5b128c7c9ee7",
+		"name": "Travel Planner API",
+		"description": "Postman Collection for Travel Planner Assessment API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Projects",
+			"item": [
+				{
+					"name": "Create Project (with Places)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Chicago Art Trip\",\n  \"description\": \"My first museum visit\",\n  \"start_date\": \"2026-08-01\",\n  \"places\": [\n    {\"external_id\": 27992},\n    {\"external_id\": 129884}\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/projects/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"projects",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Project (Empty)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Empty Project\",\n  \"description\": \"Project without initial places\",\n  \"start_date\": \"2026-09-01\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/projects/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"projects",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Projects",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/projects/?skip=0&limit=20",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"projects",
+								""
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Project by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/projects/:project_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"projects",
+								":project_id"
+							],
+							"variable": [
+								{
+									"key": "project_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Project",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Updated Chicago Art Trip\",\n  \"description\": \"Updated description of my museum visit\",\n  \"start_date\": \"2026-08-15\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/projects/:project_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"projects",
+								":project_id"
+							],
+							"variable": [
+								{
+									"key": "project_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Project",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/projects/:project_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"projects",
+								":project_id"
+							],
+							"variable": [
+								{
+									"key": "project_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Places",
+			"item": [
+				{
+					"name": "Add Place to Project",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"external_id\": 4\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/projects/:project_id/places/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"projects",
+								":project_id",
+								"places",
+								""
+							],
+							"variable": [
+								{
+									"key": "project_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Places in Project",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/projects/:project_id/places/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"projects",
+								":project_id",
+								"places",
+								""
+							],
+							"variable": [
+								{
+									"key": "project_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Place by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/projects/:project_id/places/:place_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"projects",
+								":project_id",
+								"places",
+								":place_id"
+							],
+							"variable": [
+								{
+									"key": "project_id",
+									"value": "1"
+								},
+								{
+									"key": "place_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Place (Notes/Visited)",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"notes\": \"Must see this masterpiece!\",\n  \"is_visited\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/projects/:project_id/places/:place_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"projects",
+								":project_id",
+								"places",
+								":place_id"
+							],
+							"variable": [
+								{
+									"key": "project_id",
+									"value": "1"
+								},
+								{
+									"key": "place_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Infrastructure",
+			"item": [
+				{
+					"name": "Ping",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ping",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ping"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8000",
+			"type": "string"
+		}
+	]
+}

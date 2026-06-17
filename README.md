@@ -57,7 +57,7 @@ API will be available at: http://localhost:8000
 Copy `.env.example` to `.env` and adjust if needed:
 
 ```env
-DATABASE_URLsqlite+aiosqlite:///./db/db.sqlite3
+DATABASE_URL=sqlite+aiosqlite:///./db/db.sqlite3
 AIC_BASE_URL=https://api.artic.edu/api/v1
 HOST=0.0.0.0
 PORT=8000
@@ -81,6 +81,17 @@ ReDoc alternative:
 ```
 http://localhost:8000/redoc
 ```
+
+### Postman Collection
+
+A complete Postman collection covering all endpoints, path variables, and request body structures is provided in the repository root: `travel_planner.postman_collection.json`. 
+
+To use it:
+1. Open Postman.
+2. Click **Import** in the top-left corner.
+3. Drag and drop the `travel_planner.postman_collection.json` file.
+4. Set the global collection variable `baseUrl` to your running app address (default is `http://localhost:8000`).
+
 
 ---
 
