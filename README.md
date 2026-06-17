@@ -23,7 +23,7 @@ Built with **FastAPI**, **SQLModel**, **SQLite**, and **Granian**.
 
 ```bash
 git clone https://github.com/ashfromsky/travel-planner-crewred
-cd travel-planner
+cd travel-planner-crewred
 
 cp .env.example .env
 
@@ -40,7 +40,7 @@ API will be available at: http://localhost:8000
 
 ```bash
 git clone https://github.com/ashfromsky/travel-planner-crewred
-cd travel-planner
+cd travel-planner-crewred
 
 cp .env.example .env
 
