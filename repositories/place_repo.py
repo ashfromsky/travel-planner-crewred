@@ -55,6 +55,6 @@ class PlaceRepository:
 
     async def update(self, place: ProjectPlace) -> ProjectPlace:
         self.session.add(place)
-        await self.session.commit()
+        await self.session.flush()
         await self.session.refresh(place)
         return place

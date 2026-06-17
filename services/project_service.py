@@ -86,7 +86,14 @@ class ProjectService:
         if data.start_date is not None:
             project.start_date = data.start_date
 
-        return await self.project_repo.update(project)
+        session = self.project_repo.session
+        try:
+            updated_project = await self.project_repo.update(project)
+            await session.commit()
+            return updated_project
+        except Exception:
+            await session.rollback()
+            raise
 
     async def delete(self, project_id: int) -> None:
         await self.get_by_id(project_id)
@@ -98,4 +105,10 @@ class ProjectService:
                 detail="Cannot delete a project that has visited places.",
             )
 
-        await self.project_repo.delete(project_id)
+        session = self.project_repo.session
+        try:
+            await self.project_repo.delete(project_id)
+            await session.commit()
+        except Exception:
+            await session.rollback()
+            raise

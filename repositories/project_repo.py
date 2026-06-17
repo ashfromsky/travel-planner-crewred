@@ -37,7 +37,7 @@ class ProjectRepository:
 
     async def update(self, project: Project) -> Project:
         self.session.add(project)
-        await self.session.commit()
+        await self.session.flush()
         await self.session.refresh(project)
         return project
 
@@ -45,11 +45,11 @@ class ProjectRepository:
         project = await self.get_by_id(project_id)
         if project:
             await self.session.delete(project)
-            await self.session.commit()
+            await self.session.flush()
 
     async def mark_completed(self, project: Project) -> Project:
         project.status = ProjectStatus.completed
         self.session.add(project)
-        await self.session.commit()
+        await self.session.flush()
         await self.session.refresh(project)
         return project

@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.responses import RedirectResponse
 
 from config import settings
 from database import init_db
@@ -17,7 +18,7 @@ def create_app() -> FastAPI:
     inner_app = FastAPI(
         title='Travel Planner',
         description='Travel Planner Assessment Project',
-        docs_url='/',
+        docs_url='/docs',
         redoc_url='/redoc',
 
         version='1.0.0',
@@ -27,6 +28,9 @@ def create_app() -> FastAPI:
     inner_app.include_router(projects.router, prefix="/api/v1")
     inner_app.include_router(places.router, prefix="/api/v1")
 
+    @inner_app.get("/", include_in_schema=False)
+    async def redirect_to_docs():
+        return RedirectResponse(url="/docs")
 
     @inner_app.get("/ping")
     async def ping():
