@@ -42,6 +42,11 @@ class TestProjects:
         response = await async_client.post("/api/v1/projects/", json=payload)
         assert response.status_code == 404
 
+        list_response = await async_client.get("/api/v1/projects/")
+        assert list_response.status_code == 200
+        projects = list_response.json()
+        assert not any(p["name"] == "Trip with bad place" for p in projects)
+
     async def test_create_project_too_many_places(self, async_client: AsyncClient):
         payload = {
             "name": "Too many places",
@@ -87,7 +92,13 @@ class TestProjects:
         assert data["start_date"] == "2026-08-01"
 
     async def test_delete_project_success(self, async_client: AsyncClient):
-        payload = {"name": "Delete Me"}
+        payload = {
+            "name": "Delete Me",
+            "places": [
+                {"external_id": 123},
+                {"external_id": 456}
+            ]
+        }
         create_res = await async_client.post("/api/v1/projects/", json=payload)
         project_id = create_res.json()["id"]
 

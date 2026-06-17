@@ -47,7 +47,14 @@ class PlaceService:
             external_id=data.external_id,
             title=title,
         )
-        return await self.place_repo.create(place)
+        session = self.place_repo.session
+        try:
+            created_place = await self.place_repo.create(place)
+            await session.commit()
+            return created_place
+        except Exception:
+            await session.rollback()
+            raise
 
     async def get_all(self, project_id: int) -> list[ProjectPlace]:
         project = await self.project_repo.get_by_id(project_id)

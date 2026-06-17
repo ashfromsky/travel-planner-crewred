@@ -11,15 +11,15 @@ class ProjectRepository:
 
     async def create(self, project: Project) -> Project:
         self.session.add(project)
-        await self.session.commit()
+        await self.session.flush()
         await self.session.refresh(project)
         return project
 
     async def get_by_id(self, project_id: int) -> Project | None:
         stmt = (
             select(Project)
-            .where(getattr(Project, "id") == project_id)
-            .options(selectinload(getattr(Project, "places")))
+            .where(Project.id == project_id)
+            .options(selectinload(Project.places))
         )
         result = await self.session.execute(stmt)
         return result.scalar_one_or_none()
@@ -27,8 +27,8 @@ class ProjectRepository:
     async def get_all(self, skip: int = 0, limit: int = 20) -> list[Project]:
         stmt = (
             select(Project)
-            .options(selectinload(getattr(Project, "places")))
-            .order_by(getattr(Project, "created_at").desc())
+            .options(selectinload(Project.places))
+            .order_by(Project.created_at.desc())
             .offset(skip)
             .limit(limit)
         )

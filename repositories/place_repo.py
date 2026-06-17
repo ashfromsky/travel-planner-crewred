@@ -1,4 +1,4 @@
-from sqlalchemy import select
+from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from models.models import ProjectPlace
@@ -10,20 +10,20 @@ class PlaceRepository:
 
     async def create(self, place: ProjectPlace) -> ProjectPlace:
         self.session.add(place)
-        await self.session.commit()
+        await self.session.flush()
         await self.session.refresh(place)
         return place
 
     async def get_by_id(self, place_id: int) -> ProjectPlace | None:
-        stmt = select(ProjectPlace).where(getattr(ProjectPlace, "id") == place_id)
+        stmt = select(ProjectPlace).where(ProjectPlace.id == place_id)
         result = await self.session.execute(stmt)
         return result.scalar_one_or_none()
 
     async def get_by_project(self, project_id: int) -> list[ProjectPlace]:
         stmt = (
             select(ProjectPlace)
-            .where(getattr(ProjectPlace, "project_id") == project_id)
-            .order_by(getattr(ProjectPlace, "created_at").asc())
+            .where(ProjectPlace.project_id == project_id)
+            .order_by(ProjectPlace.created_at.asc())
         )
         result = await self.session.execute(stmt)
         return list(result.scalars().all())
@@ -32,16 +32,16 @@ class PlaceRepository:
         self, project_id: int, external_id: int
     ) -> ProjectPlace | None:
         stmt = select(ProjectPlace).where(
-            getattr(ProjectPlace, "project_id") == project_id,
-            getattr(ProjectPlace, "external_id") == external_id,
+            ProjectPlace.project_id == project_id,
+            ProjectPlace.external_id == external_id,
         )
         result = await self.session.execute(stmt)
         return result.scalar_one_or_none()
 
     async def count_by_project(self, project_id: int) -> int:
-        stmt = select(ProjectPlace).where(getattr(ProjectPlace, "project_id") == project_id)
+        stmt = select(func.count(ProjectPlace.id)).where(ProjectPlace.project_id == project_id)
         result = await self.session.execute(stmt)
-        return len(result.scalars().all())
+        return result.scalar_one()
 
     async def all_visited(self, project_id: int) -> bool:
         places = await self.get_by_project(project_id)

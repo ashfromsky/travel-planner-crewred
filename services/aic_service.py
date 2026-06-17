@@ -8,6 +8,7 @@ _cache: dict[int, str] = {}
 class AICService:
     def __init__(self):
         self.base_url = settings.AIC_BASE_URL
+        self.client = httpx.AsyncClient(timeout=10.0)
 
     async def get_artwork(self, external_id: str | int) -> dict | None:
         try:
@@ -21,11 +22,10 @@ class AICService:
         url = f"{self.base_url}/artworks/{ext_id}?fields=id,title"
 
         try:
-            async with httpx.AsyncClient(timeout=10.0) as client:
-                response = await client.get(
-                    url,
-                    headers={"AIC-User-Agent": "travel-planner (test-assessment)"},
-                )
+            response = await self.client.get(
+                url,
+                headers={"AIC-User-Agent": "travel-planner (test-assessment)"},
+            )
         except httpx.RequestError:
             return None
 

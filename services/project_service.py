@@ -13,41 +13,48 @@ class ProjectService:
         self.place_repo = place_repo
 
     async def create(self, project_data: ProjectCreate) -> Project:
-        project = Project(
-            name=project_data.name,
-            description=project_data.description,
-            start_date=project_data.start_date,
-        )
-        project = await self.project_repo.create(project)
-
-        if project.id is None:
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail="Project ID was not generated.",
+        session = self.project_repo.session
+        try:
+            project = Project(
+                name=project_data.name,
+                description=project_data.description,
+                start_date=project_data.start_date,
             )
+            project = await self.project_repo.create(project)
 
-        if project_data.places:
-            if len(project_data.places) > 10:
+            if project.id is None:
                 raise HTTPException(
-                    status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                    detail="A project cannot have more than 10 places.",
+                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    detail="Project ID was not generated.",
                 )
 
-            for place_data in project_data.places:
-                artwork = await aic_service.get_artwork(place_data.external_id)
-                if not artwork:
+            if project_data.places:
+                if len(project_data.places) > 10:
                     raise HTTPException(
-                        status_code=status.HTTP_404_NOT_FOUND,
-                        detail=f"Artwork with id={place_data.external_id} not found in AIC API.",
+                        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                        detail="A project cannot have more than 10 places.",
                     )
-                title = artwork["title"]
 
-                place = ProjectPlace(
-                    project_id=project.id,
-                    external_id=place_data.external_id,
-                    title=title,
-                )
-                await self.place_repo.create(place)
+                for place_data in project_data.places:
+                    artwork = await aic_service.get_artwork(place_data.external_id)
+                    if not artwork:
+                        raise HTTPException(
+                            status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"Artwork with id={place_data.external_id} not found in AIC API.",
+                        )
+                    title = artwork["title"]
+
+                    place = ProjectPlace(
+                        project_id=project.id,
+                        external_id=place_data.external_id,
+                        title=title,
+                    )
+                    await self.place_repo.create(place)
+
+            await session.commit()
+        except Exception:
+            await session.rollback()
+            raise
 
         db_project = await self.project_repo.get_by_id(project.id)
         if not db_project:
