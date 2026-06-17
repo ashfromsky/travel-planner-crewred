@@ -22,7 +22,7 @@ Built with **FastAPI**, **SQLModel**, **SQLite**, and **Granian**.
 ### Option 1 — Docker (recommended)
 
 ```bash
-git clone https://github.com/your-username/travel-planner
+git clone https://github.com/ashfromsky/travel-planner-crewred
 cd travel-planner
 
 cp .env.example .env
@@ -39,7 +39,7 @@ API will be available at: http://localhost:8000
 **Requirements:** Python 3.12+, [uv](https://docs.astral.sh/uv/)
 
 ```bash
-git clone https://github.com/your-username/travel-planner
+git clone https://github.com/ashfromsky/travel-planner-crewred
 cd travel-planner
 
 cp .env.example .env

@@ -83,17 +83,24 @@ class PlaceService:
         if data.is_visited is not None:
             place.is_visited = data.is_visited
 
-        place = await self.place_repo.update(place)
+        session = self.place_repo.session
+        try:
+            place = await self.place_repo.update(place)
 
-        if data.is_visited:
-            all_done = await self.place_repo.all_visited(project_id)
-            if all_done:
-                project = await self.project_repo.get_by_id(project_id)
-                if not project:
-                    raise HTTPException(
-                        status_code=status.HTTP_404_NOT_FOUND,
-                        detail=f"Project with id={project_id} not found.",
-                    )
-                await self.project_repo.mark_completed(project)
+            if data.is_visited:
+                all_done = await self.place_repo.all_visited(project_id)
+                if all_done:
+                    project = await self.project_repo.get_by_id(project_id)
+                    if not project:
+                        raise HTTPException(
+                            status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"Project with id={project_id} not found.",
+                        )
+                    await self.project_repo.mark_completed(project)
+
+            await session.commit()
+        except Exception:
+            await session.rollback()
+            raise
 
         return place
