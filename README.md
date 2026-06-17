@@ -57,7 +57,7 @@ API will be available at: http://localhost:8000
 Copy `.env.example` to `.env` and adjust if needed:
 
 ```env
-DATABASE_URL=sqlite+aiosqlite:///./db.sqlite3
+DATABASE_URLsqlite+aiosqlite:///./db/db.sqlite3
 AIC_BASE_URL=https://api.artic.edu/api/v1
 HOST=0.0.0.0
 PORT=8000
