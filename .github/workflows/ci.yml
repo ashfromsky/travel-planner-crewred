@@ -24,4 +24,4 @@ jobs:
 
       - run: uv sync
 
-      - run: uv run python -c "import main"
+      - run: uv run python -m pytest
