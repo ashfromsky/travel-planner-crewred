@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main, master, "feat/*" ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main, master, "feat/*" ]
 
 env:
   DATABASE_URL: "sqlite+aiosqlite:///:memory:"
