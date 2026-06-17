@@ -7,8 +7,8 @@ on:
     branches: [ main, master ]
 
 env:
-  DATABASE_URL: sqlite+aiosqlite:///:memory:
-  AIC_BASE_URL: https://api.artic.edu/api/v1
+  DATABASE_URL: "sqlite+aiosqlite:///:memory:"
+  AIC_BASE_URL: "https://api.artic.edu/api/v1"
 
 jobs:
   check:
